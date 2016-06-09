@@ -84,6 +84,7 @@ public class MainActivity extends Activity {
                     public void onAuthenticated(AuthData authData) {
                         user_key = edtUserMail.getText().toString().replace(".", "*");
                         Toast.makeText(MainActivity.this, "Hi " + edtUserMail.getText().toString() , Toast.LENGTH_SHORT).show();
+
                         doLogin() ;
                     }
 

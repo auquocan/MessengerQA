@@ -12,7 +12,6 @@ import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,9 +36,12 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.sileria.android.view.HorzListView;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,9 +58,15 @@ public class FriendList extends Activity {
     ArrayList<ChatMessage> arrConversaton;
     ListViewRequestAdapter adapterImg;
     HorzListView listviewImg;
+    ListView lv_conversation;
     Object_User objectRequestUser;
     ChatMessage objectConversation;
     Point p;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +77,25 @@ public class FriendList extends Activity {
         //code
         //finding friend
         btnAddFriend.setVisibility(View.GONE);
+        edtFriendMail.setFocusable(false);
+
+        edtFriendMail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edtFriendMail.setFocusableInTouchMode(true);
+            }
+        });
+
+        //todo: Visible button or else
         edtFriendMail.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (s.toString().trim().length() == 0) {
+
                     btnAddFriend.setVisibility(View.INVISIBLE);
+
 
                 } else {
                     btnAddFriend.setVisibility(View.VISIBLE);
@@ -120,12 +140,12 @@ public class FriendList extends Activity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //a@test*comANDb@test*com
                 arrConversaton.clear();
-                final ListView lv_conversation = (ListView) findViewById(R.id.listViewConversation);
+                //final ListView lv_conversation = (ListView) findViewById(R.id.listViewConversation);
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     String CurrentString = postSnapshot.getKey().toString(); // Cut Key to 2 email
                     String[] separated = CurrentString.split("_AND_");// Cut Key to 2 email
-                    if (separated[0].equals(MainActivity.user_key) || separated[1].equals(MainActivity.user_key)) {// if someones send rq for me
+                    if (separated[0].equals(MainActivity.user_key) || separated[1].equals(MainActivity.user_key)) {
                         Firebase rootCT = new Firebase(MainActivity.root + "/Chat/" + CurrentString);
 
                         rootCT.addValueEventListener(new ValueEventListener() {
@@ -135,9 +155,23 @@ public class FriendList extends Activity {
                                 objectConversation = dataSnapshot.getValue(ChatMessage.class);
 
                                 arrConversaton.add(objectConversation);
-                                Log.d("CONVER", objectConversation.fullName + " " + objectConversation.fullName_2 + " " + objectConversation.message);
+                                // Log.d("CONVER", objectConversation.fullName + " " + objectConversation.fullName_2 + " " + objectConversation.message);
 
                                 ConversationAdapter conversationAdapter = new ConversationAdapter(FriendList.this, R.layout.row_friend_conversation, arrConversaton);
+
+
+                                //ToDo: Animation for listview
+                                AnimationSet set = new AnimationSet(true);
+                                Animation animation = new AlphaAnimation(0.0f, 1.0f);
+                                animation.setDuration(1000);
+                                set.addAnimation(animation);
+
+                                LayoutAnimationController controller = new LayoutAnimationController(
+                                        set, 0.5f);
+
+                                lv_conversation.setLayoutAnimation(controller);
+
+                                //Todo Setapdater
                                 lv_conversation.setAdapter(conversationAdapter);
                             }
 
@@ -218,7 +252,17 @@ public class FriendList extends Activity {
                 }
             }
         });
+        lv_conversation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent i = new Intent(FriendList.this, Chat_Screen.class);
+//                startActivity(i);
+                }
+            });
 
+//        // ATTENTION: This was auto-generated to implement the App Indexing API.
+//        // See https://g.co/AppIndexing/AndroidStudio for more information.
+//        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private void Mapping() {
@@ -229,6 +273,7 @@ public class FriendList extends Activity {
         progressSearching = (ProgressBar) findViewById(R.id.progressBar);
         adapterImg = new ListViewRequestAdapter(FriendList.this, arrRequest);
         listviewImg = (HorzListView) findViewById(R.id.horizontal_lvImg);
+        lv_conversation = (ListView) findViewById(R.id.listViewConversation);
     }
 
     private void AddUserRequestToListView(String userRequested) {
@@ -239,13 +284,11 @@ public class FriendList extends Activity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // listview Item la anh
-
-
                 objectRequestUser = dataSnapshot.getValue(Object_User.class);
                 // String imgRequest = objectRequestUser.avataUser.toString();
                 arrRequest.add(objectRequestUser);
 
-
+                //Todo: Animation for listview
                 AnimationSet set = new AnimationSet(true);
                 Animation animation = new AlphaAnimation(0.0f, 1.0f);
                 animation.setDuration(1000);
@@ -254,16 +297,14 @@ public class FriendList extends Activity {
                 animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 50.0f,
                         Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                         0.0f, Animation.RELATIVE_TO_SELF, 0.0f);
-                animation.setDuration(500);
+                animation.setDuration(1000);
                 set.addAnimation(animation);
 
                 LayoutAnimationController controller = new LayoutAnimationController(
                         set, 0.5f);
-
                 listviewImg.setLayoutAnimation(controller);
 
-//                        adapter = new LazyAdapter(getActivity(), numResults, nodes, tabType);
-//                        setListAdapter(adapter);
+                //Todo: set apdater
                 listviewImg.setAdapter(adapterImg);
             }
 
@@ -358,6 +399,7 @@ public class FriendList extends Activity {
                 chat.imgUserChat_2 = imgTemp;
                 chat.fullName = "test";
                 chat.fullName_2 = nameTemp;
+                chat.time = DateFormat.getDateTimeInstance().format(new Date());
 
                 //TODO:  get name of user
                 MainActivity.root.child("User").child(MainActivity.user_key).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -423,4 +465,44 @@ public class FriendList extends Activity {
             return null;
         }
     }
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//
+//        // ATTENTION: This was auto-generated to implement the App Indexing API.
+//        // See https://g.co/AppIndexing/AndroidStudio for more information.
+//        client.connect();
+//        Action viewAction = Action.newAction(
+//                Action.TYPE_VIEW, // TODO: choose an action type.
+//                "FriendList Page", // TODO: Define a title for the content shown.
+//                // TODO: If you have web page content that matches this app activity's content,
+//                // make sure this auto-generated web page URL is correct.
+//                // Otherwise, set the URL to null.
+//                Uri.parse("http://host/path"),
+//                // TODO: Make sure this auto-generated app URL is correct.
+//                Uri.parse("android-app://friend/http/host/path")
+//        );
+//        AppIndex.AppIndexApi.start(client, viewAction);
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//
+//        // ATTENTION: This was auto-generated to implement the App Indexing API.
+//        // See https://g.co/AppIndexing/AndroidStudio for more information.
+//        Action viewAction = Action.newAction(
+//                Action.TYPE_VIEW, // TODO: choose an action type.
+//                "FriendList Page", // TODO: Define a title for the content shown.
+//                // TODO: If you have web page content that matches this app activity's content,
+//                // make sure this auto-generated web page URL is correct.
+//                // Otherwise, set the URL to null.
+//                Uri.parse("http://host/path"),
+//                // TODO: Make sure this auto-generated app URL is correct.
+//                Uri.parse("android-app://friend/http/host/path")
+//        );
+//        AppIndex.AppIndexApi.end(client, viewAction);
+//        client.disconnect();
+//    }
 }
