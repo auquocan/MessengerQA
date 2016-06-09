@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "824335302096",
+    "firebase_url": "https://qa-messenger.firebaseio.com",
+    "project_id": "qa-messenger",
+    "storage_bucket": "qa-messenger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824335302096:android:46fe8a42cb295431",
+        "android_client_info": {
+          "package_name": "quytrinh.quocan.quocan.messengerqa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824335302096-6hbos864a567l7hoq3m3hm9pn93scjer.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAt-0GKjYXWvXW19XaSjTKd05qtY1FL6-U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

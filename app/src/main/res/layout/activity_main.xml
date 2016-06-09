@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#fdfdfd"
+    tools:context="quytrinh.quocan.quocan.messengerqa.MainActivity"
+    >
+
+    <ImageView
+
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:id="@+id/imageLogo"
+        android:src="@drawable/logoqa"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:textColorHint="#ffffff"
+        android:background="#8ae3f2"
+        android:layout_width="200dp"
+        android:hint=" Email"
+        android:textSize="13dp"
+        android:layout_height="30dp"
+        android:id="@+id/editTextUserName"
+        android:layout_below="@+id/imageLogo"
+        android:layout_alignLeft="@+id/editTextPassword"
+        android:layout_alignStart="@+id/editTextPassword"
+        android:layout_marginTop="40dp" />
+
+    <EditText
+        android:textColorHint="#ffffff"
+        android:textSize="13dp"
+        android:background="#8ae3f2"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:hint=" Password"
+        android:password="true"
+        android:id="@+id/editTextPassword"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/editTextUserName"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:background="@drawable/button"
+        android:layout_width="95dp"
+        android:textColor="#ffffff"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/buttonLogin"
+        android:layout_below="@+id/editTextPassword"
+        android:layout_marginTop="10dp"
+        android:layout_alignLeft="@+id/editTextPassword"
+        android:layout_alignStart="@+id/editTextPassword" />
+
+    <Button
+        android:background="@drawable/button"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:text="Register"
+        android:id="@+id/buttonRegister"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/editTextPassword"
+        android:layout_alignRight="@+id/editTextPassword"
+        android:layout_alignEnd="@+id/editTextPassword" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17dp"
+        android:textColor="#0095ff"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Forgot your password?"
+        android:id="@+id/textViewForgotPassword"
+        android:layout_alignTop="@+id/buttonRegister"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp" />
+
+</RelativeLayout>

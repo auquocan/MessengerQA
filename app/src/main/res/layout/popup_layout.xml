@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/popuplayout"
+    android:background="@drawable/popup"
+    android:orientation="vertical"
+    android:weightSum="1">
+    <android.support.v7.widget.CardView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:elevation="12dp"
+        android:id="@+id/view2"
+        app:cardCornerRadius="40dp"
+        android:layout_centerHorizontal="true"
+        android:innerRadius="0dp"
+        android:shape="ring"
+        android:thicknessRatio="1.9">
+        <ImageView
+            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:id="@+id/imageUserPopup"
+            android:src="@drawable/cam"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true">
+        </ImageView>
+    </android.support.v7.widget.CardView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:textSize="17dp"
+        android:textColor="#8ae3f2"
+
+        android:id="@+id/textViewBirthdayPopup"
+        android:layout_alignBottom="@+id/ImageIconBirth"
+        android:layout_alignLeft="@+id/textViewSexsualPopup"
+        android:layout_alignStart="@+id/textViewSexsualPopup" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accept"
+        android:background="@drawable/button"
+        android:textColor="#ffffff"
+        android:id="@+id/ButtonAccept"
+        android:layout_alignBottom="@+id/textViewBirthdayPopup"
+        android:layout_toRightOf="@+id/textViewBirthdayPopup"
+        android:layout_marginLeft="65sp"
+         />
+
+
+
+    <TextView
+        android:id="@+id/textViewSexsualPopup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sexual"
+        android:textSize="17dp"
+        android:textColor="#8ae3f2"
+
+        android:layout_alignBottom="@+id/ImageIconSexual"
+        android:layout_toRightOf="@+id/ImageIconUser"
+        android:layout_toEndOf="@+id/ImageIconUser"
+        android:layout_marginBottom="13dp" />
+
+
+
+    <TextView
+
+        android:id="@+id/textViewNamePopup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Popup"
+        android:textSize="17dp"
+        android:textColor="#8ae3f2"
+
+        android:layout_alignTop="@+id/ImageIconUser"
+        android:layout_toRightOf="@+id/ImageIconUser"
+        android:layout_toEndOf="@+id/ImageIconUser"
+        android:layout_below="@id/imageUserPopup"
+        android:layout_marginTop="4dp"/>
+
+
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="28dp"
+        android:id="@+id/ImageIconUser"
+        android:src="@drawable/user"
+        android:layout_below="@+id/view2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="51dp"
+        android:layout_height="45dp"
+        android:id="@+id/ImageIconSexual"
+        android:src="@drawable/sexual"
+        android:layout_weight="0.12"
+        android:layout_below="@+id/ImageIconUser"
+        android:layout_alignRight="@+id/ImageIconUser"
+        android:layout_alignEnd="@+id/ImageIconUser" />
+
+    <ImageView
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:id="@+id/ImageIconBirth"
+        android:src="@drawable/birthday"
+        android:layout_below="@+id/ImageIconSexual"
+        android:layout_marginRight="10dp"
+        android:layout_alignRight="@+id/ImageIconUser"
+        android:layout_alignEnd="@+id/ImageIconUser" />
+
+    <!--<Button-->
+        <!--android:id="@+id/btnclose"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Close" />-->
+
+</RelativeLayout>
