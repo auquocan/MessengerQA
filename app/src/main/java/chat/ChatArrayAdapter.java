@@ -26,6 +26,11 @@ class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
     private Context context;
 
     @Override
+    public void clear( ) {
+        chatMessageList.clear();
+    }
+
+    @Override
     public void add(ChatMessage object) {
         chatMessageList.add(object);
         super.add(object);
@@ -36,9 +41,9 @@ class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
         this.context = context;
     }
 
-//    public int getCount() {
-//        return this.chatMessageList.size();
-//    }
+    public int getCount() {
+        return this.chatMessageList.size();
+    }
 
     public ChatMessage getItem(int index) {
         return this.chatMessageList.get(index);
@@ -46,6 +51,7 @@ class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ChatMessage chatMessageObj = getItem(position);
+        //Log.d("SSS",chatMessageObj.message);
         View row = convertView;
         LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (chatMessageObj.userEmail.equals(MainActivity.user_key)) {

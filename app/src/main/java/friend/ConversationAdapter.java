@@ -39,9 +39,25 @@ public class ConversationAdapter extends ArrayAdapter<ChatMessage> {
 
         ChatMessage p = getItem(position);
 
+
+//        Firebase rootTemp = new Firebase(MainActivity.root + "/User/" + MainActivity.user_key);// create temp firebase root to get the object
+//        rootTemp.child("avataUser").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                String tmp_string;
+//                tmp_string = dataSnapshot.getValue().toString();
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) {
+//
+//            }
+//        });
+
         if (p != null) {
+
             TextView txt_name = (TextView) v.findViewById(R.id.textViewTenChat);
-            if(MainActivity.user_key.equals(p.userEmail))// if this one send chat set his image
+            if (MainActivity.user_key.equals(p.userEmail))// if this one send mess, set his text
                 txt_name.setText(p.fullName_2);
             else
                 txt_name.setText(p.fullName);
@@ -50,18 +66,19 @@ public class ConversationAdapter extends ArrayAdapter<ChatMessage> {
             TextView txt_cur_chat = (TextView) v.findViewById(R.id.textViewCurrentChat);
             txt_cur_chat.setText(p.message);
 
-            ImageView img_conver  = (ImageView) v.findViewById(R.id.imageConversation);
+            ImageView img_conver = (ImageView) v.findViewById(R.id.imageConversation);
             Bitmap bitmap;
-            if(MainActivity.user_key.equals(p.userEmail))// if this one send chat set his image
-                 bitmap  = StringToBitMap(p.imgUserChat_2);
+            if (MainActivity.user_key.equals(p.userEmail))// if this one send mess, set his image
+                bitmap = StringToBitMap(p.imgUserChat_2);
             else
-                bitmap  = StringToBitMap(p.imgUserChat);
+                bitmap = StringToBitMap(p.imgUserChat);
             img_conver.setImageBitmap(bitmap);
 
         }
 
         return v;
     }
+
     //String to BitMap
     public Bitmap StringToBitMap(String encodedString) {
         try {

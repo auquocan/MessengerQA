@@ -3,6 +3,7 @@ package friend;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -12,6 +13,7 @@ import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +38,6 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.sileria.android.view.HorzListView;
 
 import java.text.DateFormat;
@@ -46,6 +47,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import chat.ChatMessage;
+import chat.Chat_Screen;
 import quytrinh.quocan.quocan.messengerqa.MainActivity;
 import quytrinh.quocan.quocan.messengerqa.R;
 import user.Object_User;
@@ -62,11 +64,6 @@ public class FriendList extends Activity {
     Object_User objectRequestUser;
     ChatMessage objectConversation;
     Point p;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,54 +127,63 @@ public class FriendList extends Activity {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
+                Toast.makeText(FriendList.this, firebaseError.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+
 
         //TODO: Receive Conversation
         MainActivity.root.child("Chat").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //a@test*comANDb@test*com
-                arrConversaton.clear();
-                //final ListView lv_conversation = (ListView) findViewById(R.id.listViewConversation);
-
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    String CurrentString = postSnapshot.getKey().toString(); // Cut Key to 2 email
-                    String[] separated = CurrentString.split("_AND_");// Cut Key to 2 email
+                    final String conversationKey = postSnapshot.getKey().toString(); // Cut Key to 2 email
+                    String[] separated = conversationKey.split("_AND_");// Cut Key to 2 email
                     if (separated[0].equals(MainActivity.user_key) || separated[1].equals(MainActivity.user_key)) {
-                        Firebase rootCT = new Firebase(MainActivity.root + "/Chat/" + CurrentString);
-
+                        final Firebase rootCT = new Firebase(MainActivity.root + "/Chat/" + conversationKey);
                         rootCT.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                    arrConversaton.clear();
+                                    final String tmp = postSnapshot.getKey().toString();
 
-                                objectConversation = dataSnapshot.getValue(ChatMessage.class);
+                                    Firebase rootTemp = new Firebase(MainActivity.root + "/Chat/" + conversationKey);// create temp firebase root to get the object
+                                    rootTemp.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                arrConversaton.add(objectConversation);
-                                // Log.d("CONVER", objectConversation.fullName + " " + objectConversation.fullName_2 + " " + objectConversation.message);
+                                            Log.d("CHID", String.valueOf(dataSnapshot.getChildrenCount()));
 
-                                ConversationAdapter conversationAdapter = new ConversationAdapter(FriendList.this, R.layout.row_friend_conversation, arrConversaton);
+                                            objectConversation = dataSnapshot.child(tmp).getValue(ChatMessage.class); // get object
+
+                                            arrConversaton.add(objectConversation);
+
+                                            //TODO: delete duplicate conversation by identifying email
+                                            for (int i = 0; i < arrConversaton.size(); i++)
+                                                for (int j = 0; j < arrConversaton.size(); j++)
+                                                    if (((arrConversaton.get(j).userEmail_2.equals(arrConversaton.get(i).userEmail_2))
+                                                            && (i != j)))
+                                                        arrConversaton.remove(i);
 
 
-                                //ToDo: Animation for listview
-                                AnimationSet set = new AnimationSet(true);
-                                Animation animation = new AlphaAnimation(0.0f, 1.0f);
-                                animation.setDuration(1000);
-                                set.addAnimation(animation);
 
-                                LayoutAnimationController controller = new LayoutAnimationController(
-                                        set, 0.5f);
+                                            setConversationListView(); // set conversation  to Listview
+                                            Log.d("NUM", String.valueOf(arrConversaton.size()));
 
-                                lv_conversation.setLayoutAnimation(controller);
+                                        }
 
-                                //Todo Setapdater
-                                lv_conversation.setAdapter(conversationAdapter);
+                                        @Override
+                                        public void onCancelled(FirebaseError firebaseError) {
+                                            Toast.makeText(FriendList.this, firebaseError.toString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
                             }
 
                             @Override
                             public void onCancelled(FirebaseError firebaseError) {
-
+                                Toast.makeText(FriendList.this, firebaseError.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -186,6 +192,7 @@ public class FriendList extends Activity {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
+                Toast.makeText(FriendList.this, firebaseError.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -224,6 +231,7 @@ public class FriendList extends Activity {
 
                     @Override
                     public void onCancelled(FirebaseError firebaseError) {
+                        Toast.makeText(FriendList.this, firebaseError.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
                 new CountDownTimer(6000, 1000) {   // count down time for progress bar
@@ -255,14 +263,41 @@ public class FriendList extends Activity {
         lv_conversation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent i = new Intent(FriendList.this, Chat_Screen.class);
-//                startActivity(i);
-                }
-            });
+                Intent iChatScreen = new Intent(FriendList.this, Chat_Screen.class);
+                // Toast.makeText(FriendList.this, arrConversaton.get(position).userEmail.toString() + "aa" + arrConversaton.get(position).userEmail_2.toString(), Toast.LENGTH_SHORT).show();
+                Bundle bd = new Bundle();
+                bd.putString("idCONVERSATION",
+                        arrConversaton.get(position).userEmail.toString() + "_AND_" + arrConversaton.get(position).userEmail_2.toString());
+
+
+                iChatScreen.putExtra("data", bd);//truyền gói bundle
+                startActivity(iChatScreen);
+            }
+        });
 
 //        // ATTENTION: This was auto-generated to implement the App Indexing API.
 //        // See https://g.co/AppIndexing/AndroidStudio for more information.
 //        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    private void setConversationListView() {
+
+        //ToDo: Animation for listview
+
+        AnimationSet set = new AnimationSet(true);
+        Animation animation = new AlphaAnimation(0.0f, 1.0f);
+        animation.setDuration(1000);
+        set.addAnimation(animation);
+
+        LayoutAnimationController controller = new LayoutAnimationController(
+                set, 0.5f);
+
+
+        lv_conversation.setLayoutAnimation(controller);
+
+        //Todo Setapdater
+        ConversationAdapter conversationAdapter = new ConversationAdapter(FriendList.this, R.layout.row_friend_conversation, arrConversaton);
+        lv_conversation.setAdapter(conversationAdapter);
     }
 
     private void Mapping() {
@@ -310,7 +345,7 @@ public class FriendList extends Activity {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
+                Toast.makeText(FriendList.this, firebaseError.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -400,6 +435,8 @@ public class FriendList extends Activity {
                 chat.fullName = "test";
                 chat.fullName_2 = nameTemp;
                 chat.time = DateFormat.getDateTimeInstance().format(new Date());
+                final String userSendRequest = arrRequest.get(posit).userEmail.replace(".", "*"); // This is email of request sender
+                chat.userEmail_2 = userSendRequest;
 
                 //TODO:  get name of user
                 MainActivity.root.child("User").child(MainActivity.user_key).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -411,20 +448,19 @@ public class FriendList extends Activity {
 
                     @Override
                     public void onCancelled(FirebaseError firebaseError) {
-
+                        Toast.makeText(FriendList.this, firebaseError.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
                 //TODO:  get avata of user
-                final String userSendRequest = arrRequest.get(posit).userEmail.replace(".", "*"); // This is email of request sender
                 MainActivity.root.child("User").child(MainActivity.user_key).child("avataUser").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         chat.imgUserChat = dataSnapshot.getValue().toString();
 
-                        //TODO: put to firebase
+                        //TODO: push to firebase
 
-                        MainActivity.root.child("Chat").child(MainActivity.user_key + "_AND_" + userSendRequest).setValue(chat, new Firebase.CompletionListener() {
+                        MainActivity.root.child("Chat").child(MainActivity.user_key + "_AND_" + userSendRequest).push().setValue(chat, new Firebase.CompletionListener() {
                             @Override
                             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                                 if (firebaseError != null)
@@ -435,7 +471,7 @@ public class FriendList extends Activity {
 
                     @Override
                     public void onCancelled(FirebaseError firebaseError) {
-
+                        Toast.makeText(FriendList.this, firebaseError.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -443,7 +479,6 @@ public class FriendList extends Activity {
                 MainActivity.root.child("Request").child(MainActivity.user_key + "_aRECEIVEb_" + userSendRequest).removeValue(new Firebase.CompletionListener() {
                     @Override
                     public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-
                         if (firebaseError != null)
                             Toast.makeText(FriendList.this, firebaseError.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }

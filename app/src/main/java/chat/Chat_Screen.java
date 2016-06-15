@@ -2,6 +2,7 @@ package chat;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AbsListView;
@@ -15,6 +16,9 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import quytrinh.quocan.quocan.messengerqa.MainActivity;
 import quytrinh.quocan.quocan.messengerqa.R;
 
@@ -26,60 +30,65 @@ public class Chat_Screen extends Activity {
     private ListView listView;
     private EditText chatText;
     private Button buttonSend;
-    private boolean side = false;
+    ChatMessage mess = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_chat__screen_);
 
         //Mapping
         buttonSend = (Button) findViewById(R.id.send);
         listView = (ListView) findViewById(R.id.msgview);
         chatText = (EditText) findViewById(R.id.msg);
 
+        //TODO: Get bundle: idConversation
+        Bundle bd = getIntent().getBundleExtra("data");
+        final String idConversation = bd.getString("idCONVERSATION");
 
-        //TODO: Receive Message
-        MainActivity.root.child("Request").addValueEventListener(new ValueEventListener() {
+        //TODO: Set Adapter for ListView
+        chatArrayAdapter = new ChatArrayAdapter(Chat_Screen.this, R.layout.right);
+
+
+        // TODO: Receive Conversation
+        MainActivity.root.child("Chat").child(idConversation).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ChatMessage object = null;
+                chatArrayAdapter.clear();
+                Log.d("NGOAI", String.valueOf(dataSnapshot.getChildrenCount()));
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    String CurrentString = postSnapshot.getKey().toString(); // Cut Key to 2 email
-                    String[] separated = CurrentString.split("_AND_");// Cut Key to 2 email
-                    if (separated[0].equals(MainActivity.user_key) || separated[1].equals(MainActivity.user_key)) {// if someones send rq for me
-                        Firebase rootCT = new Firebase(MainActivity.root + "/Chat/" + CurrentString);
-                        rootCT.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                ChatMessage msg = dataSnapshot.getValue(ChatMessage.class);
-                                Toast.makeText(Chat_Screen.this, msg.time, Toast.LENGTH_SHORT).show();
+                    Log.d("NOI", String.valueOf(postSnapshot.getChildrenCount()));
+                    object = postSnapshot.getValue(ChatMessage.class);
+                    showMessOnListView(object);
 
-                            }
-
-                            @Override
-                            public void onCancelled(FirebaseError firebaseError) {
-
-                            }
-                        });
-                    }
                 }
+                listView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+                listView.setAdapter(chatArrayAdapter);
+                mess = object;
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
             }
         });
-
-        //Set Adapter
-        chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.right);
-        listView.setAdapter(chatArrayAdapter);
 
 
         chatText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    return sendChatMessage();
+                    mess.time = DateFormat.getDateTimeInstance().format(new Date());
+                    mess.message = chatText.getText().toString();
+
+                    //TODO: identify who send he message
+                    String tmp_email = mess.userEmail;
+                    String tmp_email_2 = mess.userEmail_2;
+                    mess.userEmail = MainActivity.user_key;
+                    if(mess.userEmail.equals(tmp_email_2))
+                        mess.userEmail_2 = tmp_email;
+
+                    //TODO: push to fire base
+                    return pushMessToFireBase(mess, idConversation);
                 }
                 return false;
             }
@@ -87,14 +96,25 @@ public class Chat_Screen extends Activity {
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                sendChatMessage();
+                mess.time = DateFormat.getDateTimeInstance().format(new Date());
+                mess.message = chatText.getText().toString();
+
+                //TODO: identify who send he message
+                String tmp_email = mess.userEmail;
+                String tmp_email_2 = mess.userEmail_2;
+                mess.userEmail = MainActivity.user_key;
+                if(mess.userEmail.equals(tmp_email_2))
+                    mess.userEmail_2 = tmp_email;
+
+                //TODO: push to fire base
+                pushMessToFireBase(mess, idConversation);
+
             }
         });
 
-        listView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-        listView.setAdapter(chatArrayAdapter);
 
-//        //to scroll the list view to bottom on data change
+
+        //to scroll the list view to bottom on data change
 //        chatArrayAdapter.registerDataSetObserver(new DataSetObserver() {
 //            @Override
 //            public void onChanged() {
@@ -104,10 +124,29 @@ public class Chat_Screen extends Activity {
 //        });
     }
 
-    private boolean sendChatMessage() {
-//        chatArrayAdapter.add(new ChatMessage(side, chatText.getText().toString()));
-//        chatText.setText("");
+    private boolean pushMessToFireBase(ChatMessage objectMess, String idConversation) {
+        //TODO: push to firebase
+
+        MainActivity.root.child("Chat").child(idConversation).push().setValue(objectMess, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError != null)
+                    Toast.makeText(Chat_Screen.this, firebaseError.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        return  true;
+    }
+
+    private boolean showMessOnListView(ChatMessage objectMess) {
+
+        chatArrayAdapter.add(new ChatMessage(objectMess));// must create new ChatMessage,
+
+        chatText.setText("");
+
+        Log.d("SSS", Integer.toString(chatArrayAdapter.getCount()).toString());
+
+
 //        side = !side;
- return true;
+        return true;
     }
 }

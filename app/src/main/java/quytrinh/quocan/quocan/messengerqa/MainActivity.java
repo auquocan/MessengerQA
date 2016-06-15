@@ -27,11 +27,8 @@ public class MainActivity extends Activity {
     public static String user_key;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //  for Title Bar
-        // requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         super.onCreate(savedInstanceState);
-        // for fullscreen
-        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
 
@@ -43,7 +40,7 @@ public class MainActivity extends Activity {
         root = new Firebase("https://testqamess.firebaseio.com/");
         //Mapping
         Mapping();
-        edtUserMail.setText("test@test.com");
+        edtUserMail.setText("a@test.com");
         edtPassword.setText("123456");
         //Register Button
         btnRegister.setOnClickListener(new View.OnClickListener() {
