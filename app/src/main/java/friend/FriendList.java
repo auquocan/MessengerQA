@@ -153,7 +153,7 @@ public class FriendList extends Activity {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                            Log.d("CHID", String.valueOf(dataSnapshot.getChildrenCount()));
+
 
                                             objectConversation = dataSnapshot.child(tmp).getValue(ChatMessage.class); // get object
 
@@ -437,6 +437,7 @@ public class FriendList extends Activity {
                 chat.time = DateFormat.getDateTimeInstance().format(new Date());
                 final String userSendRequest = arrRequest.get(posit).userEmail.replace(".", "*"); // This is email of request sender
                 chat.userEmail_2 = userSendRequest;
+                chat.whoSend = MainActivity.user_key;
 
                 //TODO:  get name of user
                 MainActivity.root.child("User").child(MainActivity.user_key).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {

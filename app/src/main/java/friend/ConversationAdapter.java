@@ -63,9 +63,6 @@ public class ConversationAdapter extends ArrayAdapter<ChatMessage> {
                 txt_name.setText(p.fullName);
 
 
-            TextView txt_cur_chat = (TextView) v.findViewById(R.id.textViewCurrentChat);
-            txt_cur_chat.setText(p.message);
-
             ImageView img_conver = (ImageView) v.findViewById(R.id.imageConversation);
             Bitmap bitmap;
             if (MainActivity.user_key.equals(p.userEmail))// if this one send mess, set his image
@@ -74,6 +71,17 @@ public class ConversationAdapter extends ArrayAdapter<ChatMessage> {
                 bitmap = StringToBitMap(p.imgUserChat);
             img_conver.setImageBitmap(bitmap);
 
+//            ImageView img_conver = (ImageView) v.findViewById(R.id.imageConversation);
+//            Bitmap bitmap;
+//            if (MainActivity.user_key.equals(p.whoSend))// if this one send mess, set his image
+//                bitmap = StringToBitMap(p.imgUserChat_2);
+//            else
+//                bitmap = StringToBitMap(p.imgUserChat);
+//            img_conver.setImageBitmap(bitmap);
+
+
+            TextView txt_cur_chat = (TextView) v.findViewById(R.id.textViewCurrentChat);
+            txt_cur_chat.setText(p.message);
         }
 
         return v;

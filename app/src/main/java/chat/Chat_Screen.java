@@ -80,12 +80,8 @@ public class Chat_Screen extends Activity {
                     mess.time = DateFormat.getDateTimeInstance().format(new Date());
                     mess.message = chatText.getText().toString();
 
-                    //TODO: identify who send he message
-                    String tmp_email = mess.userEmail;
-                    String tmp_email_2 = mess.userEmail_2;
-                    mess.userEmail = MainActivity.user_key;
-                    if(mess.userEmail.equals(tmp_email_2))
-                        mess.userEmail_2 = tmp_email;
+                    //TODO: identify who send the message
+                    mess.whoSend = MainActivity.user_key;
 
                     //TODO: push to fire base
                     return pushMessToFireBase(mess, idConversation);
@@ -99,12 +95,15 @@ public class Chat_Screen extends Activity {
                 mess.time = DateFormat.getDateTimeInstance().format(new Date());
                 mess.message = chatText.getText().toString();
 
-                //TODO: identify who send he message
-                String tmp_email = mess.userEmail;
-                String tmp_email_2 = mess.userEmail_2;
-                mess.userEmail = MainActivity.user_key;
-                if(mess.userEmail.equals(tmp_email_2))
-                    mess.userEmail_2 = tmp_email;
+//                //TODO: identify who send he message
+//                String tmp_email = mess.userEmail;
+//                String tmp_email_2 = mess.userEmail_2;
+//                mess.userEmail = MainActivity.user_key;
+//                if(mess.userEmail.equals(tmp_email_2))
+//                    mess.userEmail_2 = tmp_email;
+
+                //TODO: identify who send the message
+                mess.whoSend = MainActivity.user_key;
 
                 //TODO: push to fire base
                 pushMessToFireBase(mess, idConversation);

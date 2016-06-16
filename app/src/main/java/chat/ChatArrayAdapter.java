@@ -26,7 +26,7 @@ class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
     private Context context;
 
     @Override
-    public void clear( ) {
+    public void clear() {
         chatMessageList.clear();
     }
 
@@ -54,14 +54,21 @@ class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
         //Log.d("SSS",chatMessageObj.message);
         View row = convertView;
         LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (chatMessageObj.userEmail.equals(MainActivity.user_key)) {
+//        if (chatMessageObj.userEmail.equals(MainActivity.user_key)) {
+//            row = inflater.inflate(R.layout.left, parent, false);
+//        }else{
+//            row = inflater.inflate(R.layout.right, parent, false);
+//        }
+
+        if (chatMessageObj.whoSend.equals(MainActivity.user_key))
             row = inflater.inflate(R.layout.left, parent, false);
-        }else{
+        else
             row = inflater.inflate(R.layout.right, parent, false);
-        }
+
+
         chatText = (TextView) row.findViewById(R.id.msgr);
         chatText.setText(chatMessageObj.message);
-        timeDate = (TextView)row.findViewById(R.id.textViewShowDate);
+        timeDate = (TextView) row.findViewById(R.id.textViewShowDate);
         timeDate.setText(chatMessageObj.time);
         return row;
     }
