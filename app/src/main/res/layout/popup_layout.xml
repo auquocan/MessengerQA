@@ -47,7 +47,7 @@
         android:id="@+id/ButtonAccept"
         android:layout_alignBottom="@+id/textViewBirthdayPopup"
         android:layout_toRightOf="@+id/textViewBirthdayPopup"
-        android:layout_marginLeft="65sp"
+        android:layout_marginLeft="60sp"
          />
 
 

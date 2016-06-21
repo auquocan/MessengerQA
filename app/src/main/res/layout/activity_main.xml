@@ -27,7 +27,7 @@
         android:textSize="13dp"
         android:inputType="textEmailAddress"
         android:textColor="#57a3af"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:id="@+id/editTextUserName"
         android:layout_below="@+id/imageLogo"
         android:layout_alignLeft="@+id/editTextPassword"
@@ -40,11 +40,10 @@
         android:textColor="#57a3af"
         android:layout_width="200dp"
         android:inputType="textEmailAddress"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:hint="Password"
         android:password="true"
         android:id="@+id/editTextPassword"
-        android:layout_marginTop="10dp"
         android:layout_below="@+id/editTextUserName"
         android:layout_centerHorizontal="true" />
 

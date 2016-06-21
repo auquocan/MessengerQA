@@ -4,18 +4,25 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
@@ -52,9 +59,9 @@ import quytrinh.quocan.quocan.messengerqa.MainActivity;
 import quytrinh.quocan.quocan.messengerqa.R;
 import user.Object_User;
 
-public class FriendList extends Activity {
+public class FriendList extends AppCompatActivity {
     EditText edtFriendMail;
-    Button btnAddFriend;
+    Button btnAddFriend, btnout;
     ProgressBar progressSearching;
     ArrayList<Object_User> arrRequest;
     ArrayList<ChatMessage> arrConversaton;
@@ -64,12 +71,76 @@ public class FriendList extends Activity {
     Object_User objectRequestUser;
     ChatMessage objectConversation;
     Point p;
+    //variable for navigation
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend);
+        //btnout = (Button) findViewById(R.id.buttonLogout);
         Mapping();
+
+
+        //TODO: Navigation bar
+        //Todo: s actionbar
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(android.R.drawable.ic_menu_sort_by_size);
+        navigationView.setItemIconTintList(null); // hiển thị đúng màu
+        //Todo:Click on icon toolbar to show navi
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+        //todo: Set image header
+        SetImageHeader();
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.menuLogout:
+
+                        SharedPreferences.Editor editor = MainActivity.sharedPreferences.edit();
+                        editor.putString("username", "");
+                        editor.putString("password", "");
+                        editor.commit();
+                        finish();//close current screen
+                        Intent i = new Intent(FriendList.this, MainActivity.class);
+                        startActivity(i);//open Mainactivity
+                        break;
+                    case R.id.menuIOs:
+                        Toast.makeText(FriendList.this, "IOs", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menuPHP:
+                        Toast.makeText(FriendList.this, "PHP", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+
+
+                drawerLayout.closeDrawer(GravityCompat.START);
+
+
+                return false;
+            }
+        });
+
+
+//        //todo: remember user whn checkbox clicked
+//        btnout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//
+//            }
+//        });
+
 
         //code
         //finding friend
@@ -154,7 +225,6 @@ public class FriendList extends Activity {
                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-
                                             objectConversation = dataSnapshot.child(tmp).getValue(ChatMessage.class); // get object
 
                                             arrConversaton.add(objectConversation);
@@ -165,7 +235,6 @@ public class FriendList extends Activity {
                                                     if (((arrConversaton.get(j).userEmail_2.equals(arrConversaton.get(i).userEmail_2))
                                                             && (i != j)))
                                                         arrConversaton.remove(i);
-
 
 
                                             setConversationListView(); // set conversation  to Listview
@@ -299,8 +368,25 @@ public class FriendList extends Activity {
         ConversationAdapter conversationAdapter = new ConversationAdapter(FriendList.this, R.layout.row_friend_conversation, arrConversaton);
         lv_conversation.setAdapter(conversationAdapter);
     }
+    private void SetImageHeader()
+    {
+        View hView =  navigationView.getHeaderView(0);
+        final ImageView avata = (ImageView)hView.findViewById(R.id.naviAvataHead);
+//        avata.setImageResource(R.drawable.cam);
+        MainActivity.root.child("User").child(MainActivity.user_key).child("avataUser").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String temp= dataSnapshot.getValue().toString();
+                avata.setImageBitmap(StringToBitMap(temp));
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
 
+            }
+        });
+    }
     private void Mapping() {
+
         arrRequest = new ArrayList<Object_User>();
         arrConversaton = new ArrayList<ChatMessage>();
         edtFriendMail = (EditText) findViewById(R.id.editTextYourFriend);
@@ -309,6 +395,9 @@ public class FriendList extends Activity {
         adapterImg = new ListViewRequestAdapter(FriendList.this, arrRequest);
         listviewImg = (HorzListView) findViewById(R.id.horizontal_lvImg);
         lv_conversation = (ListView) findViewById(R.id.listViewConversation);
+        drawerLayout = (DrawerLayout) findViewById(R.id.myDrawableLayout);
+        navigationView = (NavigationView) findViewById(R.id.myNavigation);
+        toolbar = (Toolbar) findViewById(R.id.myToolbar);
     }
 
     private void AddUserRequestToListView(String userRequested) {
@@ -382,7 +471,7 @@ public class FriendList extends Activity {
         popup.setFocusable(true);
 
         // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
-        int OFFSET_X = 35;
+        int OFFSET_X = 70;
         int OFFSET_Y = 300;
 
         // Clear the default translucent background
@@ -419,7 +508,6 @@ public class FriendList extends Activity {
                 nagDialog.show();
             }
         });
-
         //When click accept friend request
         Button bntAccept = (Button) layout.findViewById(R.id.ButtonAccept);
         bntAccept.setOnClickListener(new View.OnClickListener() {
@@ -438,6 +526,7 @@ public class FriendList extends Activity {
                 final String userSendRequest = arrRequest.get(posit).userEmail.replace(".", "*"); // This is email of request sender
                 chat.userEmail_2 = userSendRequest;
                 chat.whoSend = MainActivity.user_key;
+
 
                 //TODO:  get name of user
                 MainActivity.root.child("User").child(MainActivity.user_key).child("fullName").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -458,7 +547,6 @@ public class FriendList extends Activity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         chat.imgUserChat = dataSnapshot.getValue().toString();
-
                         //TODO: push to firebase
 
                         MainActivity.root.child("Chat").child(MainActivity.user_key + "_AND_" + userSendRequest).push().setValue(chat, new Firebase.CompletionListener() {

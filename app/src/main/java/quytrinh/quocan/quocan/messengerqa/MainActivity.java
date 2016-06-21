@@ -22,13 +22,13 @@ import user.User_Infomation;
 
 public class MainActivity extends Activity {
     public static Firebase root;
+    public static String user_key;
     Button btnLogin, btnRegister;
     EditText edtPassword;
     CheckBox checkBox;
-    public static EditText edtUserMail;
     TextView txtvForgotPassword;
-    public static String user_key;
-    SharedPreferences sharedPreferences;
+    public static EditText edtUserMail;
+    public static SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -45,17 +45,20 @@ public class MainActivity extends Activity {
         //Mapping
         Mapping();
 
+
         //todo: remember me
         sharedPreferences = getSharedPreferences("DataLogin", MODE_PRIVATE);
-        edtUserMail.setText(sharedPreferences.getString("username",""));
-        edtPassword.setText(sharedPreferences.getString("password",""));
-        if(!edtUserMail.equals(""))
+        edtUserMail.setText(sharedPreferences.getString("username", ""));
+        edtPassword.setText(sharedPreferences.getString("password", ""));
+        if (!edtUserMail.getText().toString().equals("")) {
+            user_key = edtUserMail.getText().toString().replace(".", "*");
             doLogin();
-
+        }
         //Register Button
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (edtPassword.length() >= 6) {
                     root.createUser(edtUserMail.getText().toString(), edtPassword.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
                         // Successfully create
@@ -81,16 +84,18 @@ public class MainActivity extends Activity {
                     Toast.makeText(MainActivity.this, "Password/Email is not available", Toast.LENGTH_LONG).show();
             }
         });
+
         //Login Button
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // Successfully Login
                 root.authWithPassword(edtUserMail.getText().toString(), edtPassword.getText().toString(), new Firebase.AuthResultHandler() {
                     @Override
                     public void onAuthenticated(AuthData authData) {
                         user_key = edtUserMail.getText().toString().replace(".", "*");
-                        Toast.makeText(MainActivity.this, "Welcome to QAM"  , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Welcome to QAM", Toast.LENGTH_SHORT).show();
 
                         //todo: remember user whn checkbox clicked
                         if (checkBox.isChecked()) {
@@ -103,7 +108,7 @@ public class MainActivity extends Activity {
 
                             editor.commit();
                         }
-                        doLogin() ;
+                        doLogin();
                     }
 
                     // Somgthing wrong when Login
@@ -116,6 +121,8 @@ public class MainActivity extends Activity {
                 });
             }
         });
+
+
         txtvForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,11 +153,13 @@ public class MainActivity extends Activity {
         Intent i = new Intent(MainActivity.this, User_Infomation.class);
         startActivity(i);//mở màn hình mới
     }
+
     public void doLogin() {
         finish();//close current screen
         Intent i = new Intent(MainActivity.this, FriendList.class);
         startActivity(i);//mở màn hình mới
     }
+
     //Mapping
     private void Mapping() {
         btnLogin = (Button) findViewById(R.id.buttonLogin);

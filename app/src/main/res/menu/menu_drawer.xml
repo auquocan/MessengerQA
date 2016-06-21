@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuLogout"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Logout" />
+    <item
+
+        android:id="@+id/menuIOs"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Ios" />
+    <item
+        android:id="@+id/menuPHP"
+        android:icon="@mipmap/ic_launcher"
+        android:title="PHP" />
+
+    <item android:title="Lien He">
+        <menu>
+            <item
+                android:id="@+id/menuSodt"
+                android:icon="@mipmap/ic_launcher"
+                android:title="so dt" />
+            <item
+                android:id="@+id/menuEmail"
+                android:icon="@mipmap/ic_launcher"
+                android:title="email" />
+        </menu>
+    </item>
+</menu>
