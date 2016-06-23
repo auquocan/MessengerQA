@@ -2,6 +2,8 @@ package friend;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -55,13 +56,14 @@ import java.util.Map;
 
 import chat.ChatMessage;
 import chat.Chat_Screen;
+import photo.GridViewActivity;
 import quytrinh.quocan.quocan.messengerqa.MainActivity;
 import quytrinh.quocan.quocan.messengerqa.R;
 import user.Object_User;
 
 public class FriendList extends AppCompatActivity {
     EditText edtFriendMail;
-    Button btnAddFriend, btnout;
+    Button btnAddFriend;
     ProgressBar progressSearching;
     ArrayList<Object_User> arrRequest;
     ArrayList<ChatMessage> arrConversaton;
@@ -102,7 +104,8 @@ public class FriendList extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.menuLogout:
 
@@ -111,14 +114,22 @@ public class FriendList extends AppCompatActivity {
                         editor.putString("password", "");
                         editor.commit();
                         finish();//close current screen
-                        Intent i = new Intent(FriendList.this, MainActivity.class);
-                        startActivity(i);//open Mainactivity
+                        Intent iLogout = new Intent(FriendList.this, MainActivity.class);
+                        startActivity(iLogout);//open Mainactivity
                         break;
-                    case R.id.menuIOs:
-                        Toast.makeText(FriendList.this, "IOs", Toast.LENGTH_SHORT).show();
+                    case R.id.Photo:
+                        Intent iPhoto = new Intent(FriendList.this, GridViewActivity.class);
+                        startActivity(iPhoto);//open Mainactivity
                         break;
                     case R.id.menuPHP:
-                        Toast.makeText(FriendList.this, "PHP", Toast.LENGTH_SHORT).show();
+//                        FragmentPhoto fragmentRemove = (FragmentPhoto) getFragmentManager().findFragmentByTag("FA");
+//                        //FragmentIOS fragmentRB = (FragmentIOS) getFragmentManager().findFragmentByTag("FB");
+//                        if (fragmentRemove != null) {
+//                            fragmentTransaction.remove(fragmentRemove);
+//                            fragmentTransaction.commit();
+//                        }
+//                        else
+//                            Toast.makeText(FriendList.this, "No more", Toast.LENGTH_SHORT).show();
                         break;
                 }
 
@@ -303,17 +314,17 @@ public class FriendList extends AppCompatActivity {
                         Toast.makeText(FriendList.this, firebaseError.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
-                new CountDownTimer(6000, 1000) {   // count down time for progress bar
-
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-
-                    public void onFinish() {
-                        progressSearching.setVisibility(View.GONE);
-                        btnAddFriend.setVisibility(View.VISIBLE);
-                    }
-                }.start();
+//                new CountDownTimer(6000, 1000) {   // count down time for progress bar
+//
+//                    public void onTick(long millisUntilFinished) {
+//
+//                    }
+//
+//                    public void onFinish() {
+//                        progressSearching.setVisibility(View.GONE);
+//                        btnAddFriend.setVisibility(View.VISIBLE);
+//                    }
+//                }.start();
             }
         });
 

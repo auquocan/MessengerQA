@@ -5,4 +5,6 @@
     <color name="colorAccent">#8ae3f2</color>
     <color name="button_background">#8ae3f2</color>
     <color name="button_focus">#a5a7a7</color>
+    <color name="blue">#00abea</color>
+    <color name="white">#ffffff</color>
 </resources>

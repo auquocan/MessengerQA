@@ -6,9 +6,9 @@
         android:title="Logout" />
     <item
 
-        android:id="@+id/menuIOs"
+        android:id="@+id/Photo"
         android:icon="@mipmap/ic_launcher"
-        android:title="Ios" />
+        android:title="Photo" />
     <item
         android:id="@+id/menuPHP"
         android:icon="@mipmap/ic_launcher"

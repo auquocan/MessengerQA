@@ -20,6 +20,8 @@
         <activity android:name="chat.Chat_Screen" />
         <activity android:name="user.User_Infomation" />
         <activity android:name="friend.FriendList" />
+        <activity android:name="photo.GridViewActivity" />
+        <activity android:name="photo.DetailsActivity" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
