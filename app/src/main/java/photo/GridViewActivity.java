@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -49,6 +50,8 @@ public class GridViewActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gridview_photo);
 
+        final TextView txtPhto = (TextView) findViewById(R.id.textViewPhoTo);
+        final TextView txtPhtoOfYourFriend = (TextView) findViewById(R.id.textViewPhotoOfFriend);
         mGridView = (GridView) findViewById(R.id.gridView);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnUpload = (Button) findViewById(R.id.buttonUpPhoto);
@@ -58,9 +61,17 @@ public class GridViewActivity extends ActionBarActivity {
 
         //Start download
         mProgressBar.setVisibility(View.VISIBLE);
-        int result = 0;
+
+        //TODO: Get bundle: idConversation
+        Bundle bd = getIntent().getBundleExtra("data");
+        String idPhotos = bd.getString("idPhoto");
+        if (!idPhotos.equals(MainActivity.user_key)) {
+            txtPhtoOfYourFriend.setVisibility(View.VISIBLE);
+            btnUpload.setVisibility(View.GONE);
+        }
+
         // TODO: Receive Photo
-        MainActivity.root.child("Photo").child(MainActivity.user_key).addValueEventListener(new ValueEventListener() {
+        MainActivity.root.child("Photo").child(idPhotos).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -74,6 +85,13 @@ public class GridViewActivity extends ActionBarActivity {
 
 
                 }
+                if (arrGridPhoto.size() == 0) {
+                    txtPhto.setText("Nothing to show");
+                    txtPhto.setVisibility(View.VISIBLE);
+                    txtPhtoOfYourFriend.setVisibility(View.GONE);
+                } else
+                    txtPhto.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.GONE);
                 mGridView.setAdapter(mGridAdapter);
             }
 
@@ -81,7 +99,7 @@ public class GridViewActivity extends ActionBarActivity {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
-        mProgressBar.setVisibility(View.GONE);
+
         mGridView.setAdapter(mGridAdapter);
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
@@ -239,4 +257,8 @@ public class GridViewActivity extends ActionBarActivity {
         return temp;
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

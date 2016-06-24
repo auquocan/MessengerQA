@@ -10,104 +10,104 @@
     tools:context="user.User_Infomation">
 
     <ImageView
+        android:id="@+id/imageUser"
         android:layout_width="160dp"
         android:layout_height="160dp"
-        android:id="@+id/imageUser"
-        android:src="@drawable/yourpicture"
         android:layout_marginTop="60dp"
-        />
+        android:src="@drawable/yourpicture" />
 
     <EditText
-        android:layout_width="170dp"
-        android:layout_height="30dp"
         android:id="@+id/editTextFullName"
-        android:hint=" Your full name"
-        android:textColorHint="#ffffff"
-        android:background="#8ae3f2"
-        android:layout_alignTop="@+id/imageUser"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="-10dp"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
         android:layout_width="170dp"
         android:layout_height="30dp"
-        android:id="@+id/editTextBirthDay"
-        android:hint=" Your birthday"
-        android:textColorHint="#ffffff"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/imageUser"
+        android:layout_marginRight="-10dp"
         android:background="#8ae3f2"
+        android:hint=" Your full name"
+        android:textColorHint="#ffffff" />
+
+    <EditText
+        android:id="@+id/editTextBirthDay"
+        android:layout_width="170dp"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/editTextFullName"
+        android:layout_alignStart="@+id/editTextFullName"
         android:layout_below="@+id/editTextFullName"
         android:layout_marginTop="10dp"
-        android:layout_alignLeft="@+id/editTextFullName"
-        android:layout_alignStart="@+id/editTextFullName" />
+        android:background="#8ae3f2"
+        android:hint=" Your birthday"
+        android:textColorHint="#ffffff" />
 
     <TextView
+        android:id="@+id/textViewSexual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Sexual:"
-        android:id="@+id/textViewSexual"
-        android:layout_below="@+id/editTextBirthDay"
         android:layout_alignLeft="@+id/editTextBirthDay"
-        android:layout_alignStart="@+id/editTextBirthDay" />
+        android:layout_alignStart="@+id/editTextBirthDay"
+        android:layout_below="@+id/editTextBirthDay"
+        android:text="Sexual:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
-        android:background="#06c1f5"
-        android:layout_width="95dp"
-        android:textColor="#ffffff"
-        android:layout_height="wrap_content"
-        android:text="Confirm"
-
         android:id="@+id/ui_buttonConfirm"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/imageUser"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="102dp" />
+
+        android:layout_marginTop="102dp"
+        android:background="#06c1f5"
+        android:text="Confirm"
+        android:textColor="#ffffff" />
+
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioGroup"
-        android:layout_below="@+id/textViewSexual"
         android:layout_alignLeft="@+id/textViewSexual"
         android:layout_alignStart="@+id/textViewSexual"
+        android:layout_below="@+id/textViewSexual"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radioBoy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Boy"
-            android:checked="true"
             android:layout_alignBaseline="@+id/ui_buttonConfirm"
             android:layout_alignBottom="@+id/ui_buttonConfirm"
+            android:layout_toEndOf="@+id/imageUser"
             android:layout_toRightOf="@+id/imageUser"
-            android:layout_toEndOf="@+id/imageUser" />
+            android:checked="true"
+            android:text="Boy" />
 
         <RadioButton
             android:id="@+id/radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Girl"/>
+            android:text="Girl" />
 
     </RadioGroup>
 
     <!--<ImageView-->
-        <!--android:layout_width="175sp"-->
-        <!--android:layout_height="175sp"-->
-        <!--android:id="@+id/imageViewTest"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_centerHorizontal="true" />-->
+    <!--android:layout_width="175sp"-->
+    <!--android:layout_height="175sp"-->
+    <!--android:id="@+id/imageViewTest"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_centerHorizontal="true" />-->
 
     <TextView
+        android:id="@+id/textViewProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="My Profile:"
-        android:textSize="26dp"
-        android:textColor="#8ad3ec"
-        android:id="@+id/textViewProfile"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:text="My Profile:"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#8ad3ec"
+        android:textSize="26dp" />
 
 </RelativeLayout>

@@ -3,23 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-   <EditText
-       android:layout_width="200dp"
-       android:layout_height="50dp"
-       android:hint="Tittle"
-       android:textSize="25dp"
-       android:id="@+id/EditTextTittle"
-       android:layout_below="@+id/imageUpload"
-       android:layout_centerHorizontal="true" />
-
+    <EditText
+        android:id="@+id/EditTextTittle"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/imageUpload"
+        android:layout_centerHorizontal="true"
+        android:hint="Tittle"
+        android:textSize="25dp" />
 
 
     <ImageView
+        android:id="@+id/imageUpload"
         android:layout_width="200dp"
         android:layout_height="250dp"
-        android:id="@+id/imageUpload"
-        android:src="@drawable/user"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/user" />
 
 </RelativeLayout>

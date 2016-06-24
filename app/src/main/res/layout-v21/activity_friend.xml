@@ -21,25 +21,41 @@
             >
             <!--lay size cua toolbar-->
             <TextView
+                android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Friends"
-                android:textSize="20dp"
-                android:textColor="#ffffff"
                 android:layout_gravity="center"
-                android:id="@+id/toolbar_title" />
+                android:text="Friends"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+            <ImageButton
+                android:id="@+id/imageOpenNavi"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+
+                android:layout_gravity="start"
+                android:background="@drawable/navi_toopen_navi"
+                android:onClick="onNaviClick" />
         </android.support.v7.widget.Toolbar>
+
+        <ProgressBar
+            android:id="@+id/progressBarConver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
 
         <EditText
             android:id="@+id/editTextYourFriend"
-            android:layout_marginLeft="10dp"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/myToolbar"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
-            android:textColorHint="#d6d6d6"
+            android:hint="Type mail address"
             android:textColorHighlight="#06c1f5"
-            android:hint="Type mail address" />
+            android:textColorHint="#d6d6d6" />
 
         <Button
             android:id="@+id/buttonAddFriend"
@@ -50,8 +66,8 @@
             android:layout_toRightOf="@+id/editTextYourFriend"
             android:background="#06c1f5"
             android:text="Add"
-            android:textSize="25dp"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="25dp" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -69,63 +85,66 @@
             android:id="@+id/textViewrequestfrom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/horizontal_lvImg"
+            android:layout_alignStart="@+id/horizontal_lvImg"
+            android:layout_below="@+id/editTextYourFriend"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
             android:text="Request:"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="16dp"
             android:textColor="#06c1f5"
-            android:layout_marginLeft="30dp"
-            android:layout_below="@+id/editTextYourFriend"
-            android:layout_marginTop="5dp"
-            android:layout_alignLeft="@+id/horizontal_lvImg"
-            android:layout_alignStart="@+id/horizontal_lvImg" />
+            android:textSize="16dp" />
+
         <com.sileria.android.view.HorzListView
             android:id="@+id/horizontal_lvImg"
-            android:layout_marginLeft="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewrequestfrom"
-            android:dividerHeight="5px"
-            android:layout_marginTop="5dp" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:dividerHeight="5px" />
+
         <TextView
-            android:layout_marginLeft="40dp"
             android:id="@+id/textViewConversation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/horizontal_lvImg"
-            android:textColor="#06c1f5"
+            android:layout_marginLeft="40dp"
             android:layout_marginTop="14dp"
             android:text="Conversation:"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#06c1f5"
             android:textSize="16dp" />
 
         <ListView
-            android:layout_marginLeft="10dp"
             android:id="@+id/listViewConversation"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_below="@+id/textViewConversation"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:scrollbars="none" />
 
 
-
         <ImageView
+            android:id="@+id/imageRequest"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/imageRequest"
 
-            android:src="@drawable/request"
-            android:layout_marginTop="-5dp"
             android:layout_below="@+id/editTextYourFriend"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="-5dp"
+            android:src="@drawable/request" />
+
         <ImageView
+            android:id="@+id/imageConver"
             android:layout_width="27dp"
             android:layout_height="27dp"
-            android:id="@+id/imageConver"
             android:layout_below="@+id/horizontal_lvImg"
-            android:src="@drawable/conversation"
+            android:layout_marginLeft="7dp"
             android:layout_marginTop="7dp"
-            android:layout_marginLeft="7dp"/>
+            android:src="@drawable/conversation" />
+
     </RelativeLayout>
 
 

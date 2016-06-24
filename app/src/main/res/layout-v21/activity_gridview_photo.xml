@@ -7,37 +7,59 @@
         android:id="@+id/gridView"
         android:layout_width="fill_parent"
         android:layout_height="500dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
         android:columnWidth="100dp"
         android:drawSelectorOnTop="true"
+        android:focusable="true"
         android:gravity="center"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="5dp"
-        android:focusable="true"
-        android:clickable="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:verticalSpacing="5dp" />
 
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <Button
+        android:id="@+id/buttonUpPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload"
-        android:id="@+id/buttonUpPhoto"
-        android:textSize="25dp"
-        android:textColor="#ffffff"
-        android:background="#06c1f5"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/progressBar"
-        android:layout_toEndOf="@+id/progressBar"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:background="#06c1f5"
+        android:text="Upload"
+        android:textColor="#ffffff"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/textViewPhoTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Photo:"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#0277BD"
+        android:textSize="30dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/textViewPhotoOfFriend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Photo Of Your Friend:"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#0277BD"
+        android:textSize="20dp"
+        android:visibility="gone" />
 
 </RelativeLayout>

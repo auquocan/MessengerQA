@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,9 +27,11 @@ public class MainActivity extends Activity {
     Button btnLogin, btnRegister;
     EditText edtPassword;
     CheckBox checkBox;
+    ProgressBar progressBarMain;
     TextView txtvForgotPassword;
     public static EditText edtUserMail;
     public static SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -58,13 +61,26 @@ public class MainActivity extends Activity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                btnRegister.setVisibility(View.GONE);
+                btnLogin.setVisibility(View.GONE);
+                progressBarMain.setVisibility(View.VISIBLE);
                 if (edtPassword.length() >= 6) {
                     root.createUser(edtUserMail.getText().toString(), edtPassword.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
                         // Successfully create
                         @Override
                         public void onSuccess(Map<String, Object> result) {
 
+                            //todo: remember user whn checkbox clicked
+                            if (checkBox.isChecked()) {
+
+                                String user = edtUserMail.getText().toString();
+                                String pass = edtPassword.getText().toString();
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("username", user);
+                                editor.putString("password", pass);
+
+                                editor.commit();
+                            }
                             doRegister();
                             user_key = edtUserMail.getText().toString().replace(".", "*");
                             Toast.makeText(getApplicationContext()
@@ -78,10 +94,17 @@ public class MainActivity extends Activity {
                             Toast.makeText(getApplicationContext()
                                     , firebaseError.getMessage()
                                     , Toast.LENGTH_LONG).show();
+                            progressBarMain.setVisibility(View.GONE);
+                            btnRegister.setVisibility(View.VISIBLE);
+                            btnLogin.setVisibility(View.VISIBLE);
                         }
                     });
-                } else
+                } else {
                     Toast.makeText(MainActivity.this, "Password/Email is not available", Toast.LENGTH_LONG).show();
+                    progressBarMain.setVisibility(View.GONE);
+                    btnRegister.setVisibility(View.VISIBLE);
+                    btnLogin.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -89,13 +112,15 @@ public class MainActivity extends Activity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                btnRegister.setVisibility(View.GONE);
+                btnLogin.setVisibility(View.GONE);
+                progressBarMain.setVisibility(View.VISIBLE);
                 // Successfully Login
                 root.authWithPassword(edtUserMail.getText().toString(), edtPassword.getText().toString(), new Firebase.AuthResultHandler() {
                     @Override
                     public void onAuthenticated(AuthData authData) {
                         user_key = edtUserMail.getText().toString().replace(".", "*");
-                        Toast.makeText(MainActivity.this, "Welcome to QAM", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Welcome to QA Messenger", Toast.LENGTH_SHORT).show();
 
                         //todo: remember user whn checkbox clicked
                         if (checkBox.isChecked()) {
@@ -114,6 +139,9 @@ public class MainActivity extends Activity {
                     // Somgthing wrong when Login
                     @Override
                     public void onAuthenticationError(FirebaseError firebaseError) {
+                        progressBarMain.setVisibility(View.GONE);
+                        btnRegister.setVisibility(View.VISIBLE);
+                        btnLogin.setVisibility(View.VISIBLE);
                         Toast.makeText(getApplicationContext(),
                                 firebaseError.getMessage(),
                                 Toast.LENGTH_LONG).show();
@@ -162,6 +190,7 @@ public class MainActivity extends Activity {
 
     //Mapping
     private void Mapping() {
+        progressBarMain = (ProgressBar) findViewById(R.id.progressBarMain);
         btnLogin = (Button) findViewById(R.id.buttonLogin);
         btnRegister = (Button) findViewById(R.id.buttonRegister);
         edtUserMail = (EditText) findViewById(R.id.editTextUserName);

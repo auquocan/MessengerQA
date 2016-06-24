@@ -20,11 +20,11 @@
         android:textColor="#000" />
 
     <TextView
+        android:id="@+id/textViewShowDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_gravity="right"
         android:text="Small Text"
-        android:textSize="10sp"
-        android:id="@+id/textViewShowDate"
-        android:layout_gravity="right" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="10sp" />
 </LinearLayout>

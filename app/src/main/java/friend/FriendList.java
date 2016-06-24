@@ -78,6 +78,9 @@ public class FriendList extends AppCompatActivity {
     NavigationView navigationView;
     Toolbar toolbar;
 
+    //processbar
+    ProgressBar prcBarConversation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,16 +92,15 @@ public class FriendList extends AppCompatActivity {
         //TODO: Navigation bar
         //Todo: s actionbar
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationIcon(android.R.drawable.ic_menu_sort_by_size);
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         navigationView.setItemIconTintList(null); // hiển thị đúng màu
         //Todo:Click on icon toolbar to show navi
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                drawerLayout.openDrawer(GravityCompat.START);
+//            }
+//        });
         //todo: Set image header
         SetImageHeader();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -119,17 +121,18 @@ public class FriendList extends AppCompatActivity {
                         break;
                     case R.id.Photo:
                         Intent iPhoto = new Intent(FriendList.this, GridViewActivity.class);
-                        startActivity(iPhoto);//open Mainactivity
+
+                        Bundle bd = new Bundle();
+                        bd.putString("idPhoto", MainActivity.user_key);
+                        iPhoto.putExtra("data", bd);//truyền gói bundle
+
+                        startActivity(iPhoto);//open Photo
                         break;
-                    case R.id.menuPHP:
-//                        FragmentPhoto fragmentRemove = (FragmentPhoto) getFragmentManager().findFragmentByTag("FA");
-//                        //FragmentIOS fragmentRB = (FragmentIOS) getFragmentManager().findFragmentByTag("FB");
-//                        if (fragmentRemove != null) {
-//                            fragmentTransaction.remove(fragmentRemove);
-//                            fragmentTransaction.commit();
-//                        }
-//                        else
-//                            Toast.makeText(FriendList.this, "No more", Toast.LENGTH_SHORT).show();
+                    case R.id.menuRate:
+                        Toast.makeText(FriendList.this, "This function will come soon  ^^", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menuAbout:
+                        Toast.makeText(FriendList.this, "Đặng Quốc An - 0987 187 503", Toast.LENGTH_LONG).show();
                         break;
                 }
 
@@ -268,6 +271,7 @@ public class FriendList extends AppCompatActivity {
                         });
                     }
                 }
+                prcBarConversation.setVisibility(View.GONE);
             }
 
             @Override
@@ -397,7 +401,7 @@ public class FriendList extends AppCompatActivity {
         });
     }
     private void Mapping() {
-
+        prcBarConversation = (ProgressBar)findViewById(R.id.progressBarConver);
         arrRequest = new ArrayList<Object_User>();
         arrConversaton = new ArrayList<ChatMessage>();
         edtFriendMail = (EditText) findViewById(R.id.editTextYourFriend);
@@ -406,6 +410,8 @@ public class FriendList extends AppCompatActivity {
         adapterImg = new ListViewRequestAdapter(FriendList.this, arrRequest);
         listviewImg = (HorzListView) findViewById(R.id.horizontal_lvImg);
         lv_conversation = (ListView) findViewById(R.id.listViewConversation);
+
+        //for navigation
         drawerLayout = (DrawerLayout) findViewById(R.id.myDrawableLayout);
         navigationView = (NavigationView) findViewById(R.id.myNavigation);
         toolbar = (Toolbar) findViewById(R.id.myToolbar);
@@ -600,44 +606,9 @@ public class FriendList extends AppCompatActivity {
             return null;
         }
     }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//
-//        // ATTENTION: This was auto-generated to implement the App Indexing API.
-//        // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        client.connect();
-//        Action viewAction = Action.newAction(
-//                Action.TYPE_VIEW, // TODO: choose an action type.
-//                "FriendList Page", // TODO: Define a title for the content shown.
-//                // TODO: If you have web page content that matches this app activity's content,
-//                // make sure this auto-generated web page URL is correct.
-//                // Otherwise, set the URL to null.
-//                Uri.parse("http://host/path"),
-//                // TODO: Make sure this auto-generated app URL is correct.
-//                Uri.parse("android-app://friend/http/host/path")
-//        );
-//        AppIndex.AppIndexApi.start(client, viewAction);
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//
-//        // ATTENTION: This was auto-generated to implement the App Indexing API.
-//        // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        Action viewAction = Action.newAction(
-//                Action.TYPE_VIEW, // TODO: choose an action type.
-//                "FriendList Page", // TODO: Define a title for the content shown.
-//                // TODO: If you have web page content that matches this app activity's content,
-//                // make sure this auto-generated web page URL is correct.
-//                // Otherwise, set the URL to null.
-//                Uri.parse("http://host/path"),
-//                // TODO: Make sure this auto-generated app URL is correct.
-//                Uri.parse("android-app://friend/http/host/path")
-//        );
-//        AppIndex.AppIndexApi.end(client, viewAction);
-//        client.disconnect();
-//    }
+    public void onNaviClick(View v) {
+        if (v.getId() == R.id.imageOpenNavi) {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+    }
 }
