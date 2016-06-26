@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -47,12 +47,13 @@ public class User_Infomation extends Activity {
     Object_User user;
     Bitmap thePic = null;
     ByteArrayOutputStream baos;
+    ProgressBar progressBarUserInfor;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     //private GoogleApiClient client;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +135,10 @@ public class User_Infomation extends Activity {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btnConfirm.setVisibility(View.GONE);//set btn  Gone
+                progressBarUserInfor.setVisibility(View.VISIBLE);//set progress bar visible
+
+
                 user = new Object_User();
                 //set Name String to user variable
                 user.fullName = edtFullName.getText().toString();
@@ -145,30 +150,38 @@ public class User_Infomation extends Activity {
                 user.sexual = rdbSexual.getText().toString();
                 //set Image String to user variable
                 if (thePic == null) { // if didnt set picture, we use the default picture
-                    BitmapDrawable drawable = (BitmapDrawable) imgAvata.getDrawable();
-                    Bitmap bitmap = drawable.getBitmap();
-                    user.avataUser = BitMapToString(bitmap);
+//                    BitmapDrawable drawable = (BitmapDrawable) imgAvata.getDrawable();
+//                    Bitmap bitmap = drawable.getBitmap();
+                    Toast.makeText(User_Infomation.this, "Didn't set your picture !!!", Toast.LENGTH_SHORT).show();
+                    //  user.avataUser = BitMapToString(bitmap);
                 } else {
-
                     user.avataUser = BitMapToString(thePic);
                 }
 
                 user.userEmail = MainActivity.user_key;//get email to use for key
+                if (edtDateBirth.getText().toString().equals("") || edtFullName.getText().toString().equals("") || user.avataUser.equals("")) {
+                    Toast.makeText(User_Infomation.this, "Please fill all information", Toast.LENGTH_SHORT).show();
+                    btnConfirm.setVisibility(View.VISIBLE);//set btn  Gone
+                    progressBarUserInfor.setVisibility(View.GONE);//set progress bar visible
+                } else {
+                    //Upload to firebase
+                    MainActivity.root.child("User").child(MainActivity.user_key).setValue(user, new Firebase.CompletionListener() {
+                        @Override
+                        public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                            if (firebaseError == null) {
+                                Toast.makeText(User_Infomation.this, "Your profile has been updated", Toast.LENGTH_SHORT).show();
+                                gotoFriendList();// go to friendlist activity
+                            } else {
+                                btnConfirm.setVisibility(View.VISIBLE);//set btn  Gone
+                                progressBarUserInfor.setVisibility(View.GONE);//set progress bar visible
+                                Toast.makeText(User_Infomation.this, firebaseError.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
 
-                //Upload to firebase
-                MainActivity.root.child("User").child(MainActivity.user_key).setValue(user, new Firebase.CompletionListener() {
-                    @Override
-                    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                        if (firebaseError == null)
-                            Toast.makeText(User_Infomation.this, "Your profile has been updated", Toast.LENGTH_SHORT).show();
-                        else
-                            Toast.makeText(User_Infomation.this, firebaseError.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
 
-                gotoFriendList();// go to friendlist activity
+                }
             }
-
 
 
         });
@@ -176,7 +189,7 @@ public class User_Infomation extends Activity {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-       // client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        // client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     //** Out Of onCreate
@@ -186,7 +199,7 @@ public class User_Infomation extends Activity {
         imgAvata = (ImageView) findViewById(R.id.imageUser);
         rdbGroupSexual = (RadioGroup) findViewById(R.id.radioGroup);
         btnConfirm = (Button) findViewById(R.id.ui_buttonConfirm);
-
+        progressBarUserInfor = (ProgressBar) findViewById(R.id.progressBarUserInfor);
     }
 
 

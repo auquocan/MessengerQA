@@ -39,21 +39,6 @@ public class ConversationAdapter extends ArrayAdapter<ChatMessage> {
 
         ChatMessage p = getItem(position);
 
-
-//        Firebase rootTemp = new Firebase(MainActivity.root + "/User/" + MainActivity.user_key);// create temp firebase root to get the object
-//        rootTemp.child("avataUser").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                String tmp_string;
-//                tmp_string = dataSnapshot.getValue().toString();
-//            }
-//
-//            @Override
-//            public void onCancelled(FirebaseError firebaseError) {
-//
-//            }
-//        });
-
         if (p != null) {
 
             TextView txt_name = (TextView) v.findViewById(R.id.textViewTenChat);

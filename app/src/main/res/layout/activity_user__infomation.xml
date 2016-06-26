@@ -52,16 +52,15 @@
 
     <Button
         android:id="@+id/ui_buttonConfirm"
-        android:layout_width="95dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageUser"
         android:layout_centerHorizontal="true"
-
         android:layout_marginTop="102dp"
         android:background="#06c1f5"
         android:text="Confirm"
+        android:textSize="25dp"
         android:textColor="#ffffff" />
-
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
@@ -109,5 +108,13 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#8ad3ec"
         android:textSize="26dp" />
-
+    <ProgressBar
+        android:id="@+id/progressBarUserInfor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageUser"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="102dp"
+        android:visibility="gone"
+        />
 </RelativeLayout>

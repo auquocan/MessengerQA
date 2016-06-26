@@ -15,7 +15,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -42,7 +41,7 @@ public class Chat_Screen extends AppCompatActivity {
     private ChatArrayAdapter chatArrayAdapter;
     private ListView listView;
     private EditText chatText;
-    private Button buttonSend;
+    private ImageView buttonSend;
     ChatMessage mess = null;
 
     String idConversation; //id conversation
@@ -58,7 +57,7 @@ public class Chat_Screen extends AppCompatActivity {
         setContentView(R.layout.activity_chat__screen_);
 
         //Mapping
-        buttonSend = (Button) findViewById(R.id.send);
+        buttonSend = (ImageView) findViewById(R.id.send);
         listView = (ListView) findViewById(R.id.msgview);
         chatText = (EditText) findViewById(R.id.msg);
 
@@ -100,7 +99,7 @@ public class Chat_Screen extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.myNavigationChat);
         toolbar = (Toolbar) findViewById(R.id.myToolbarChat);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setTitle(null);// hide label of app
         navigationView.setItemIconTintList(null); // hiển thị đúng màu
 
         SetImageHeader();

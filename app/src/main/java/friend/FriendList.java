@@ -88,11 +88,15 @@ public class FriendList extends AppCompatActivity {
         //btnout = (Button) findViewById(R.id.buttonLogout);
         Mapping();
 
-
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
         //TODO: Navigation bar
         //Todo: s actionbar
         setSupportActionBar(toolbar);
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        getSupportActionBar().setTitle(null);// hide label of app
+
         navigationView.setItemIconTintList(null); // hiển thị đúng màu
         //Todo:Click on icon toolbar to show navi
 //        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -283,7 +287,6 @@ public class FriendList extends AppCompatActivity {
         //TODO:  When click button add friend
         progressSearching.setVisibility(View.GONE);
         btnAddFriend.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 btnAddFriend.setVisibility(View.GONE);
@@ -383,25 +386,30 @@ public class FriendList extends AppCompatActivity {
         ConversationAdapter conversationAdapter = new ConversationAdapter(FriendList.this, R.layout.row_friend_conversation, arrConversaton);
         lv_conversation.setAdapter(conversationAdapter);
     }
-    private void SetImageHeader()
-    {
-        View hView =  navigationView.getHeaderView(0);
-        final ImageView avata = (ImageView)hView.findViewById(R.id.naviAvataHead);
-//        avata.setImageResource(R.drawable.cam);
-        MainActivity.root.child("User").child(MainActivity.user_key).child("avataUser").addListenerForSingleValueEvent(new ValueEventListener() {
+
+    private void SetImageHeader() {
+        View hView = navigationView.getHeaderView(0);
+        final ImageView avata = (ImageView) hView.findViewById(R.id.naviAvataHead);
+        final TextView textName = (TextView) hView.findViewById(R.id.textNameHead);
+
+
+        MainActivity.root.child("User").child(MainActivity.user_key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String temp= dataSnapshot.getValue().toString();
-                avata.setImageBitmap(StringToBitMap(temp));
+                Object_User temp = dataSnapshot.getValue(Object_User.class);
+                avata.setImageBitmap(StringToBitMap(temp.avataUser));
+                textName.setText(temp.fullName);
             }
+
             @Override
             public void onCancelled(FirebaseError firebaseError) {
 
             }
         });
     }
+
     private void Mapping() {
-        prcBarConversation = (ProgressBar)findViewById(R.id.progressBarConver);
+        prcBarConversation = (ProgressBar) findViewById(R.id.progressBarConver);
         arrRequest = new ArrayList<Object_User>();
         arrConversaton = new ArrayList<ChatMessage>();
         edtFriendMail = (EditText) findViewById(R.id.editTextYourFriend);
@@ -606,6 +614,7 @@ public class FriendList extends AppCompatActivity {
             return null;
         }
     }
+
     public void onNaviClick(View v) {
         if (v.getId() == R.id.imageOpenNavi) {
             drawerLayout.openDrawer(GravityCompat.START);

@@ -57,9 +57,11 @@
             android:stackFromBottom="true"
             android:transcriptMode="alwaysScroll"></ListView>
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:orientation="horizontal"
             android:weightSum="3">
 
@@ -67,14 +69,21 @@
                 android:id="@+id/msg"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight="2" />
+                android:layout_weight="3" />
 
-            <Button
+            <!--<Button-->
+                <!--android:id="@+id/send"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="fill_parent"-->
+                <!---->
+                <!--android:text="Send" />-->
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
                 android:id="@+id/send"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:text="Send" />
+                android:src="@drawable/sendbutton"
+                 />
+
 
         </LinearLayout>
     </LinearLayout>

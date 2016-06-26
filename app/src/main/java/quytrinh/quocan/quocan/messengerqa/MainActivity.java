@@ -48,7 +48,6 @@ public class MainActivity extends Activity {
         //Mapping
         Mapping();
 
-
         //todo: remember me
         sharedPreferences = getSharedPreferences("DataLogin", MODE_PRIVATE);
         edtUserMail.setText(sharedPreferences.getString("username", ""));
@@ -85,7 +84,7 @@ public class MainActivity extends Activity {
                             user_key = edtUserMail.getText().toString().replace(".", "*");
                             Toast.makeText(getApplicationContext()
                                     , "Successfully created user account with uid: " + result.get("uid")
-                                    , Toast.LENGTH_LONG).show();
+                                    , Toast.LENGTH_SHORT).show();
                         }
 
                         // Something wrong when creating
@@ -93,7 +92,7 @@ public class MainActivity extends Activity {
                         public void onError(FirebaseError firebaseError) {
                             Toast.makeText(getApplicationContext()
                                     , firebaseError.getMessage()
-                                    , Toast.LENGTH_LONG).show();
+                                    , Toast.LENGTH_SHORT).show();
                             progressBarMain.setVisibility(View.GONE);
                             btnRegister.setVisibility(View.VISIBLE);
                             btnLogin.setVisibility(View.VISIBLE);
@@ -154,6 +153,7 @@ public class MainActivity extends Activity {
         txtvForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBarMain.setVisibility(View.VISIBLE);
                 root.resetPassword(edtUserMail.getText().toString(), new Firebase.ResultHandler() {
                     @Override
                     public void onSuccess() {
@@ -167,6 +167,7 @@ public class MainActivity extends Activity {
                         Toast.makeText(getApplicationContext(),
                                 firebaseError.getMessage(),
                                 Toast.LENGTH_LONG).show();
+                        progressBarMain.setVisibility(View.GONE);
                     }
                 });
             }
