@@ -39,6 +39,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
+
         //Setup Firebase on Android
         Firebase.setAndroidContext(this);
         //Read & Write to your Firebase Database

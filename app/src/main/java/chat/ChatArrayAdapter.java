@@ -5,6 +5,7 @@ package chat;
  */
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
 
     private TextView chatText;
     private TextView timeDate;
-    private List<ChatMessage> chatMessageList = new ArrayList<ChatMessage>();
+    public static List<ChatMessage> chatMessageList = new ArrayList<ChatMessage>();
     private Context context;
 
     @Override
@@ -67,7 +68,15 @@ class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
 
 
         chatText = (TextView) row.findViewById(R.id.msgr);
-        chatText.setText(chatMessageObj.message);
+        if (chatMessageObj.typeMess.equals("1")) // type txt message
+            chatText.setText(chatMessageObj.message);
+        else if (chatMessageObj.typeMess.equals("3")) // type voice message
+        {
+            chatText.setTypeface(null, Typeface.BOLD_ITALIC);
+            chatText.setText("Voice message, click to hear.");
+        }
+
+
         timeDate = (TextView) row.findViewById(R.id.textViewShowDate);
         timeDate.setText(chatMessageObj.time);
         return row;

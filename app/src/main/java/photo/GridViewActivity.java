@@ -58,7 +58,6 @@ public class GridViewActivity extends ActionBarActivity {
         //Initialize with empty data
         arrGridPhoto = new ArrayList<>();
         mGridAdapter = new GridViewAdapter(this, R.layout.grid_item_photo, arrGridPhoto);
-
         //Start download
         mProgressBar.setVisibility(View.VISIBLE);
 
@@ -205,7 +204,7 @@ public class GridViewActivity extends ActionBarActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("data", BitMapToString(thePic));
                 dialogCustom.setArguments(bundle);
-                dialogCustom.show(getFragmentManager(), "OK");
+                dialogCustom.show(getFragmentManager(), "OK 3 lan");
 
                 //display the returned cropped image
                 // imgUpLoad.setImageBitmap(thePic);
@@ -254,6 +253,13 @@ public class GridViewActivity extends ActionBarActivity {
         thePic.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] b = baos.toByteArray();
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        byte[] a = Base64.decode(temp, Base64.DEFAULT);
+//        if (Arrays.equals(a, b))
+//        {
+//            Toast.makeText(GridViewActivity.this, "bang nhau 2 byte", Toast.LENGTH_SHORT).show();
+//        }
+//        else
+//            Toast.makeText(GridViewActivity.this, "nonono", Toast.LENGTH_SHORT).show();
         return temp;
     }
 

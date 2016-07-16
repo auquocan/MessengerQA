@@ -58,13 +58,18 @@
             android:transcriptMode="alwaysScroll"></ListView>
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
             android:weightSum="3">
 
+            <ImageView
+                android:id="@+id/voice"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:src="@drawable/record_send"
+                />
             <EditText
                 android:id="@+id/msg"
                 android:layout_width="0dp"
@@ -72,17 +77,16 @@
                 android:layout_weight="3" />
 
             <!--<Button-->
-                <!--android:id="@+id/send"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="fill_parent"-->
-                <!---->
-                <!--android:text="Send" />-->
+            <!--android:id="@+id/send"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="fill_parent"-->
+            <!---->
+            <!--android:text="Send" />-->
             <ImageView
+                android:id="@+id/send"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:id="@+id/send"
-                android:src="@drawable/sendbutton"
-                 />
+                android:src="@drawable/sendbutton" />
 
 
         </LinearLayout>

@@ -56,9 +56,11 @@ public class ConversationAdapter extends ArrayAdapter<ChatMessage> {
                 bitmap = StringToBitMap(p.imgUserChat);
             img_conver.setImageBitmap(bitmap);
 
-
             TextView txt_cur_chat = (TextView) v.findViewById(R.id.textViewCurrentChat);
-            txt_cur_chat.setText(p.message);
+            if (p.typeMess.equals("1")) // type txt message
+                txt_cur_chat.setText(p.message);
+            else if(p.typeMess.equals("3")) // type voice message
+                txt_cur_chat.setText("Voice message, click to hear.");
         }
 
         return v;

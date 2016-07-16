@@ -20,7 +20,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -256,7 +255,7 @@ public class FriendList extends AppCompatActivity {
 
 
                                             setConversationListView(); // set conversation  to Listview
-                                            Log.d("NUM", String.valueOf(arrConversaton.size()));
+
 
                                         }
 
@@ -547,6 +546,7 @@ public class FriendList extends AppCompatActivity {
                 chat.imgUserChat_2 = imgTemp;
                 chat.fullName = "test";
                 chat.fullName_2 = nameTemp;
+                chat.typeMess = "1";
                 chat.time = DateFormat.getDateTimeInstance().format(new Date());
                 final String userSendRequest = arrRequest.get(posit).userEmail.replace(".", "*"); // This is email of request sender
                 chat.userEmail_2 = userSendRequest;

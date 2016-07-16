@@ -55,7 +55,8 @@ public class DialogCustom extends android.app.DialogFragment {
                     }
                 });
                 Toast.makeText(getActivity(),"Uploaded", Toast.LENGTH_SHORT).show();
-              //  GridViewActivity.txtPhto.setVisibility(View.GONE);// set to visible when have a picture
+              //
+                //  GridViewActivity.txtPhto.setVisibility(View.GONE);// set to visible when have a picture
             }
 
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {

@@ -14,6 +14,7 @@ public class ChatMessage {
     public String time;
     public String userEmail_2;
     public String whoSend;
+    public String typeMess; // text , img or voice ..
 
     public ChatMessage() {
     }
@@ -28,10 +29,11 @@ public class ChatMessage {
         this.time = ob.time;
         this.userEmail_2 = ob.userEmail_2;
         this.whoSend = ob.whoSend;
+        this.typeMess = ob.typeMess;
     }
 
 
-    public ChatMessage(String imgUserChat, String message, String userEmail, String fullName, String imgUserChat_2, String fullName_2, String time,String userEmail_2, String whoSend) {
+    public ChatMessage(String imgUserChat, String message, String userEmail, String fullName, String imgUserChat_2, String fullName_2, String time,String userEmail_2, String whoSend, String typeMess) {
         this.imgUserChat = imgUserChat;
         this.message = message;
         this.userEmail = userEmail;
@@ -41,5 +43,6 @@ public class ChatMessage {
         this.time = time;
         this.userEmail_2 = userEmail_2;
         this.whoSend = whoSend;
+        this.typeMess = typeMess;
     }
 }
